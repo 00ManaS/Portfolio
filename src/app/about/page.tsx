@@ -26,16 +26,37 @@ export default function AboutPage() {
     <div className="wrap flex-1">
       <PageHeader
         eyebrow="About"
-        title="A little about me"
+        title="Full-stack developer who ships real products"
         intro={
           <>
-            Write a few paragraphs about yourself here: who you are, what you do, what
-            you&apos;re passionate about, and what kind of work you&apos;re looking for.
-            Keep it conversational — this is where visitors get a sense of who{" "}
-            {siteConfig.name} is beyond the code.
+            I&apos;m {siteConfig.name}, a full-stack developer based in{" "}
+            {siteConfig.location}. I build web applications end to end — from the
+            interface people click on to the APIs and databases behind it.
           </>
         }
-      />
+      >
+        <div className="mt-6 flex max-w-2xl flex-col gap-5 leading-7 text-muted">
+          <p>
+            Right now I&apos;m a full-stack developer intern at Brand Builder Pvt. Ltd.,
+            working across Inventory Manager — a multi-business inventory and
+            point-of-sale platform for pharmacies, groceries and retail shops. I started
+            on the frontend and moved into the backend: tenant-scoped APIs in NestJS
+            with Prisma and PostgreSQL, stock and purchase flows that can&apos;t oversell,
+            and the admin tooling behind subscriptions.
+          </p>
+          <p>
+            Before that I worked in student teams on a job portal and a B2B
+            medical-supply marketplace, building React dashboards, sign-up flows and the
+            screens people use most.
+          </p>
+          <p>
+            I&apos;m studying for a BSc in Computer Science and Information Technology
+            (CSIT) at Tribhuvan University, and I&apos;m looking for full-stack roles
+            where I can keep shipping production software. I care about fast,
+            accessible interfaces and code the next person can read.
+          </p>
+        </div>
+      </PageHeader>
 
       {/* ------------------------------------------------------------- stack */}
       <section id="stack" className="scroll-mt-24 border-b border-line py-16">
