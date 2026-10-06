@@ -32,14 +32,14 @@ npm install
 npm run dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
+Then open [http://localhost:3001](http://localhost:3001).
 
-| Command         | What it does                     |
-| --------------- | -------------------------------- |
-| `npm run dev`   | Start the development server     |
-| `npm run build` | Create a production build        |
-| `npm run start` | Serve the production build       |
-| `npm run lint`  | Run ESLint                       |
+| Command         | What it does                      |
+| --------------- | --------------------------------- |
+| `npm run dev`   | Start the dev server on port 3001 |
+| `npm run build` | Create a production build         |
+| `npm run start` | Serve the build on port 3001      |
+| `npm run lint`  | Run ESLint                        |
 
 ## Editing content
 
