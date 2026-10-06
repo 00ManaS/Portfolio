@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sanam Thapa — Portfolio
 
-## Getting Started
+Personal portfolio of Sanam Thapa, a full-stack developer based in Pokhara, Nepal.
+Built with Next.js, TypeScript and Tailwind CSS.
 
-First, run the development server:
+## Features
+
+- **Pages** — Home, About (stack and experience), Projects and Contact.
+- **Project case studies** — each project gets its own page with a summary,
+  role, stack, live and code links, and an optional demo login or walkthrough
+  video.
+- **Light and dark themes** — warm cream and charcoal palettes, with every text
+  colour checked against WCAG AA contrast.
+- **Ask-me-anything chat** — a small FAQ assistant that answers common questions
+  about my work and points to the right page.
+- **SEO** — generated Open Graph image, sitemap, robots.txt and favicon.
+- **Accessible motion** — scroll reveals and autoplaying video respect
+  `prefers-reduced-motion`.
+
+## Tech stack
+
+- [Next.js 16](https://nextjs.org) (App Router) and React 19
+- TypeScript
+- Tailwind CSS 4
+
+## Getting started
+
+Requires Node.js 20 or later.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command         | What it does                     |
+| --------------- | -------------------------------- |
+| `npm run dev`   | Start the development server     |
+| `npm run build` | Create a production build        |
+| `npm run start` | Serve the production build       |
+| `npm run lint`  | Run ESLint                       |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Editing content
 
-## Learn More
+Almost everything shown on the site lives in a few plain data files:
 
-To learn more about Next.js, take a look at the following resources:
+| File                      | Contents                                              |
+| ------------------------- | ----------------------------------------------------- |
+| `src/lib/site.ts`         | Name, title, email, location, social links and stack  |
+| `src/lib/projects.ts`     | Projects; set `hidden: true` to keep one off the site |
+| `src/app/about/page.tsx`  | Work experience                                       |
+| `src/lib/faq.ts`          | Questions and answers for the chat assistant          |
+| `src/app/globals.css`     | Colour tokens and the type scale                      |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Project screenshots and videos go in `public/projects/`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+The site is ready to deploy on [Vercel](https://vercel.com): import this
+repository and keep the default settings. Once a custom domain is pointed at it,
+set `NEXT_PUBLIC_SITE_URL` (for example `https://example.com`) so the sitemap and
+social previews use that address.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Email: [thapasanam149@gmail.com](mailto:thapasanam149@gmail.com)
+- GitHub: [@00ManaS](https://github.com/00ManaS)
