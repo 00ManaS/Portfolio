@@ -138,6 +138,24 @@ export const Check = (props: IconProps) => (
   </Icon>
 );
 
+export const Play = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M7 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L8.5 4.64A1 1 0 0 0 7 5.5Z" />
+  </Icon>
+);
+
+export const ChevronLeft = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="m15 18-6-6 6-6" />
+  </Icon>
+);
+
+export const ChevronRight = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="m9 18 6-6-6-6" />
+  </Icon>
+);
+
 export const socialIcon = {
   github: GitHub,
   linkedin: LinkedIn,

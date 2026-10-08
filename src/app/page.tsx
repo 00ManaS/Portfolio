@@ -3,7 +3,7 @@ import { getFeaturedProjects } from "@/lib/projects";
 import { brand, siteConfig } from "@/lib/site";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectGallery from "@/components/ProjectGallery";
 import { ArrowRight, Download, User } from "@/components/Icons";
 
 export default function Home() {
@@ -174,17 +174,8 @@ export default function Home() {
           </Link>
         </Reveal>
 
-        {/* A lone project gets one wide card instead of a third of an empty row. */}
-        <div
-          className={`mt-12 grid gap-5 ${
-            featured.length === 1 ? "max-w-2xl" : "sm:grid-cols-2 lg:grid-cols-3"
-          }`}
-        >
-          {featured.map((project, index) => (
-            <Reveal key={project.slug} delay={index * 90}>
-              <ProjectCard project={project} index={index} />
-            </Reveal>
-          ))}
+        <div className="mt-12">
+          <ProjectGallery projects={featured} />
         </div>
       </section>
 
