@@ -10,11 +10,11 @@ export const contentType = "image/png";
   stylesheet and no support for that colour space. Values are the dark palette
   from globals.css, converted once.
 */
-const paper = "#110e0b";
-const ink = "#f3f0ea";
-const muted = "#b6b0a9";
-const line = "#2f2a26";
-const accent = "#92a1ff";
+const paper = "#090d16";
+const ink = "#f0f4f7";
+const muted = "#a9b2be";
+const line = "#232935";
+const accent = "#65a7fa";
 
 export default function Image() {
   return new ImageResponse(
@@ -27,7 +27,7 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           background: paper,
-          backgroundImage: `radial-gradient(900px 500px at 85% -10%, rgba(146,161,255,0.22), transparent 60%)`,
+          backgroundImage: `radial-gradient(900px 500px at 85% -10%, rgba(101,167,250,0.2), transparent 60%)`,
           padding: "72px 80px",
           color: ink,
           fontFamily: "sans-serif",

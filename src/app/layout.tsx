@@ -55,8 +55,8 @@ export const metadata: Metadata = {
 /* Tints the mobile browser chrome to match whichever theme is active. */
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f9f5ec" },
-    { media: "(prefers-color-scheme: dark)", color: "#110e0b" },
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#090d16" },
   ],
 };
 
