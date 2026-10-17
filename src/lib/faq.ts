@@ -53,7 +53,7 @@ const faq: FaqEntry[] = [
     id: "projects",
     question: "What have you built?",
     keywords: ["project", "projects", "built", "portfolio", "case study", "examples", "work samples", "shipped"],
-    answer: `A few I'd point you at first: ${featuredTitles}. Each write-up covers the problem, the decisions I made, and how it turned out.`,
+    answer: `A few I'd point you at first: ${featuredTitles}. Each write-up covers what it does, the part I built, and the stack behind it.`,
     link: { label: "Browse all projects", href: "/projects" },
     starter: true,
   },

@@ -1,13 +1,9 @@
 "use client";
 
+import { toggleTheme } from "@/lib/theme";
 import { Moon, Sun } from "@/components/Icons";
 
 export default function ThemeToggle() {
-  function toggleTheme() {
-    const isDark = document.documentElement.classList.toggle("dark");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  }
-
   return (
     <button
       type="button"

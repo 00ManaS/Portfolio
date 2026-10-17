@@ -1,40 +1,21 @@
-"use client";
-
-import { useState } from "react";
 import type { Project } from "@/lib/projects";
-import { Check, Copy } from "@/components/Icons";
+import CopyButton from "@/components/CopyButton";
 
 type Demo = NonNullable<Project["demo"]>;
 
-/** One credential row with a copy button that confirms for a moment. */
+/**
+ * One credential row with a copy button. The button lives inside the <dd>: a
+ * <dl> group may only hold <dt> and <dd>, and anything else breaks the
+ * label/value pairing for screen readers.
+ */
 function Credential({ label, value }: { label: string; value: string }) {
-  const [copied, setCopied] = useState(false);
-
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch {
-      // Clipboard can be blocked (insecure origin, permissions); the value is
-      // still on screen to select by hand.
-    }
-  }
-
   return (
-    <div className="flex items-center justify-between gap-3 px-4 py-3">
-      <div className="min-w-0">
-        <dt className="eyebrow">{label}</dt>
-        <dd className="mt-1.5 truncate font-mono text-sm text-ink select-all">{value}</dd>
-      </div>
-      <button
-        type="button"
-        onClick={copy}
-        aria-label={copied ? `${label} copied` : `Copy ${label.toLowerCase()}`}
-        className="btn-icon h-9 w-9 shrink-0"
-      >
-        {copied ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
-      </button>
+    <div className="px-4 py-3">
+      <dt className="eyebrow">{label}</dt>
+      <dd className="flex items-center justify-between gap-3">
+        <span className="min-w-0 truncate font-mono text-sm text-ink select-all">{value}</span>
+        <CopyButton value={value} label={label.toLowerCase()} className="btn-icon -my-1 h-9 w-9 shrink-0" />
+      </dd>
     </div>
   );
 }

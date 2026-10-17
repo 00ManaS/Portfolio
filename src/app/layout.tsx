@@ -5,7 +5,13 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
+import Cursor from "@/components/Cursor";
+import CommandMenu, { type CommandLink } from "@/components/CommandMenu";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteConfig } from "@/lib/site";
+import { projects } from "@/lib/projects";
+import { getPosts } from "@/lib/posts";
 import { siteUrl } from "@/lib/url";
 
 const geistSans = Geist({
@@ -55,12 +61,29 @@ export const metadata: Metadata = {
 /* Tints the mobile browser chrome to match whichever theme is active. */
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
-    { media: "(prefers-color-scheme: dark)", color: "#090d16" },
+    { media: "(prefers-color-scheme: light)", color: "#fbfaf7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a100e" },
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+/** Set by Vercel during its builds; absent locally and on other hosts. */
+const onVercel = Boolean(process.env.VERCEL);
+
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const posts = await getPosts();
+  // "Writing" only joins the nav once there's something published to read.
+  const nav = posts.length ? [...siteConfig.nav, { label: "Writing", href: "/blog" }] : siteConfig.nav;
+  const commandLinks: CommandLink[] = [
+    ...[...nav, { label: "Contact", href: "/contact" }].map((item) => ({ group: "Pages" as const, ...item })),
+    ...projects.map((project) => ({
+      group: "Projects" as const,
+      label: project.title,
+      href: `/projects/${project.slug}`,
+      hint: project.year,
+    })),
+    ...posts.map((post) => ({ group: "Writing" as const, label: post.title, href: `/blog/${post.slug}` })),
+  ];
+
   return (
     <html
       lang="en"
@@ -88,12 +111,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <Nav />
+        <Nav items={nav} />
         <main id="main" className="flex flex-1 flex-col">
           {children}
         </main>
-        <Footer />
+        <Footer items={nav} />
         <ChatWidget />
+        <CommandMenu links={commandLinks} />
+        <Cursor />
+        {/* Their scripts are served by Vercel's edge, so anywhere else
+            (local builds, other hosts) they would only 404. */}
+        {onVercel && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   );

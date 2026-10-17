@@ -11,32 +11,36 @@
 :root {
   color-scheme: light;
 
-  /* surfaces — cool slate paper */
-  --paper: oklch(98.4% 0.003 250);
+  /* surfaces — warm off-white paper */
+  --paper: oklch(98.6% 0.004 95);
   --raised: oklch(100% 0 0);
-  --sunken: oklch(96.8% 0.007 248);
+  --sunken: oklch(95.9% 0.007 110);
 
-  /* text — slate neutrals; every pair clears WCAG AA on every surface */
-  --ink: oklch(20.8% 0.042 265);
-  --muted: oklch(44.6% 0.043 257);
-  --faint: oklch(51% 0.04 257);
+  /* text — near-black with a trace of green; every pair clears WCAG AA on every surface */
+  --ink: oklch(21% 0.018 170);
+  --muted: oklch(41% 0.016 165);
+  --faint: oklch(47% 0.015 160);
 
   /* strokes */
-  --line: oklch(92.9% 0.013 255);
-  --line-strong: oklch(86.9% 0.022 252);
+  --line: oklch(90.5% 0.009 120);
+  --line-strong: oklch(82.5% 0.014 135);
 
-  /* accent — cobalt */
-  --accent: oklch(48.8% 0.217 264);
-  --accent-ink: oklch(98% 0.01 264);
-  --accent-wash: oklch(95% 0.03 264);
+  /* accent — jade */
+  --accent: oklch(49% 0.098 168);
+  --accent-ink: oklch(98.5% 0.012 168);
+  --accent-wash: oklch(95.5% 0.032 168);
 
-  /* elevation */
-  --shadow-md: 0 8px 24px -12px oklch(30% 0.04 265 / 0.18);
-  --shadow-lg: 0 24px 60px -28px oklch(30% 0.05 265 / 0.28);
+  /* form errors */
+  --danger: oklch(50.5% 0.19 27);
 
-  /* texture */
-  --glow-a: oklch(60% 0.17 264 / 0.07);
-  --glow-b: oklch(85% 0.05 220 / 0.12);
+  /* elevation — sm lifts resting cards and the nav off the page */
+  --shadow-sm: 0 1px 2px oklch(25% 0.02 170 / 0.06), 0 4px 12px -4px oklch(25% 0.02 170 / 0.1);
+  --shadow-md: 0 8px 24px -12px oklch(25% 0.02 170 / 0.18);
+  --shadow-lg: 0 24px 60px -28px oklch(25% 0.03 170 / 0.28);
+
+  /* texture — a jade glow top-right, warm daylight top-left */
+  --glow-a: oklch(65% 0.11 168 / 0.08);
+  --glow-b: oklch(88% 0.06 85 / 0.16);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -44,28 +48,32 @@
 .dark {
   color-scheme: dark;
 
-  /* surfaces — deep navy slate */
-  --paper: oklch(16% 0.02 265);
-  --raised: oklch(20.5% 0.025 265);
-  --sunken: oklch(13.5% 0.018 265);
+  /* surfaces — deep green-black */
+  --paper: oklch(16.5% 0.01 175);
+  --raised: oklch(20.5% 0.013 175);
+  --sunken: oklch(13.5% 0.009 175);
 
-  --ink: oklch(96.5% 0.006 250);
-  --muted: oklch(76% 0.02 255);
-  --faint: oklch(67% 0.025 257);
+  --ink: oklch(96% 0.008 140);
+  --muted: oklch(80.5% 0.014 155);
+  --faint: oklch(71.5% 0.016 160);
 
-  --line: oklch(28% 0.025 265);
-  --line-strong: oklch(40% 0.03 262);
+  --line: oklch(30% 0.014 175);
+  --line-strong: oklch(42% 0.018 172);
 
-  --accent: oklch(72% 0.14 255);
-  --accent-ink: oklch(16% 0.03 265);
-  --accent-wash: oklch(27% 0.07 264);
+  /* accent — mint, lifted so it reads on the dark surfaces */
+  --accent: oklch(79% 0.12 166);
+  --accent-ink: oklch(18% 0.03 175);
+  --accent-wash: oklch(28.5% 0.05 170);
 
+  --danger: oklch(74% 0.15 25);
+
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.4), 0 4px 12px -4px oklch(0% 0 0 / 0.5);
   --shadow-md: 0 8px 24px -12px oklch(0% 0 0 / 0.6);
   --shadow-lg: 0 24px 60px -28px oklch(0% 0 0 / 0.75);
 
   /* texture */
-  --glow-a: oklch(62% 0.17 264 / 0.12);
-  --glow-b: oklch(70% 0.08 220 / 0.05);
+  --glow-a: oklch(60% 0.11 168 / 0.12);
+  --glow-b: oklch(75% 0.06 85 / 0.04);
 }
 
 @theme inline {
@@ -83,11 +91,13 @@
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-accent-wash: var(--accent-wash);
+  --color-danger: var(--danger);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-instrument-serif);
 
+  --shadow-card: var(--shadow-sm);
   --shadow-soft: var(--shadow-md);
   --shadow-float: var(--shadow-lg);
 }
@@ -99,6 +109,10 @@
 html {
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
+  /* Reserve the scrollbar's width even when nothing scrolls, so the side
+     margins never jump between short and long pages or when the lightbox
+     locks scrolling. */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -111,6 +125,27 @@ body {
   /* Sized to the viewport, so a repeat would restart the glow one screen down
      as a hard seam. */
   background-repeat: no-repeat;
+  text-rendering: optimizeLegibility;
+  font-variant-ligatures: contextual common-ligatures;
+}
+
+/*
+  Headings even out their line lengths instead of leaving one word stranded on
+  the last line; paragraphs avoid orphans. Layered so text-* utilities still win.
+*/
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  blockquote {
+    text-wrap: pretty;
+  }
 }
 
 ::selection {
@@ -145,6 +180,68 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--faint);
+}
+
+/* Firefox has no ::-webkit-scrollbar. Gated, because Chromium would let these
+   standard properties override the styling above. */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Cursor — drawn by the Cursor component, on top of the native pointer
+--------------------------------------------------------------------------- */
+
+.cursor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 999px;
+  opacity: 0;
+  will-change: translate;
+}
+
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  background: var(--accent);
+}
+
+.cursor-ring {
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1px solid color-mix(in oklch, var(--ink) 35%, transparent);
+  transition:
+    scale 0.28s var(--ease-out),
+    opacity 0.28s var(--ease-out),
+    border-color 0.28s var(--ease-out);
+}
+
+.cursor-layer[data-visible="true"] .cursor-dot {
+  opacity: 1;
+}
+
+.cursor-layer[data-visible="true"] .cursor-ring {
+  opacity: 0.5;
+}
+
+.cursor-layer[data-visible="true"][data-active="true"] .cursor-ring {
+  opacity: 1;
+  scale: 1.5;
+  border-color: color-mix(in oklch, var(--accent) 85%, transparent);
 }
 
 /* ---------------------------------------------------------------------------
@@ -185,7 +282,7 @@ body {
 
   /* Small uppercase mono label used above section headings. */
   .eyebrow {
-    @apply inline-flex items-center gap-2.5 font-mono text-[0.6875rem] font-medium tracking-[0.18em] text-muted uppercase;
+    @apply inline-flex items-center gap-2.5 font-mono text-xs font-medium tracking-[0.12em] text-muted uppercase;
   }
 
   .eyebrow-dot {
@@ -206,7 +303,7 @@ body {
     @apply border border-line text-ink hover:-translate-y-0.5 hover:border-line-strong hover:bg-raised hover:shadow-soft;
   }
 
-  /* Circular icon button — used by the nav, footer, theme toggle and cards. */
+  /* Circular icon button — used by the nav, theme toggle and cards. */
   .btn-icon {
     @apply inline-flex items-center justify-center rounded-full border border-line text-muted
            transition-all duration-300 hover:border-line-strong hover:bg-raised hover:text-ink;
@@ -222,16 +319,16 @@ body {
   }
 
   .tag {
-    @apply rounded-full border border-line bg-raised/60 px-3 py-1 font-mono text-[0.6875rem] tracking-wide text-muted;
+    @apply rounded-full border border-line bg-raised/60 px-3 py-1 font-mono text-xs tracking-wide text-muted;
   }
 
   /* Panel: the base surface for cards and boxed sections. */
   .panel {
-    @apply rounded-2xl border border-line bg-raised/85;
+    @apply rounded-2xl border border-line bg-raised shadow-card;
   }
 
   .card {
-    @apply relative overflow-hidden rounded-2xl border border-line bg-raised/85
+    @apply relative overflow-hidden rounded-2xl border border-line bg-raised shadow-card
            transition-[transform,border-color,box-shadow] duration-500;
     transition-timing-function: var(--ease-out);
   }
@@ -280,6 +377,144 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
+   Blog posts — plain markdown elements, styled once here
+--------------------------------------------------------------------------- */
+
+.post-body {
+  /* sugar-high token colours, drawn from the palette so code matches both themes */
+  --sh-keyword: var(--accent);
+  --sh-class: color-mix(in oklch, var(--accent) 70%, var(--ink));
+  --sh-entity: color-mix(in oklch, var(--accent) 55%, var(--ink));
+  --sh-identifier: var(--ink);
+  --sh-property: var(--muted);
+  --sh-string: oklch(52% 0.13 60);
+  --sh-jsxliterals: var(--muted);
+  --sh-sign: var(--faint);
+  --sh-comment: var(--faint);
+
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  color: var(--muted);
+}
+
+.dark .post-body {
+  --sh-string: oklch(80% 0.11 75);
+}
+
+.post-body > * + * {
+  margin-top: 1.4em;
+}
+
+.post-body h2 {
+  margin-top: 2.6em;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.post-body h3 {
+  margin-top: 2em;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.post-body strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.post-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.post-body ul,
+.post-body ol {
+  padding-left: 1.25em;
+}
+
+.post-body ul {
+  list-style: disc;
+}
+
+.post-body ol {
+  list-style: decimal;
+}
+
+.post-body li + li {
+  margin-top: 0.6em;
+}
+
+.post-body li::marker {
+  color: var(--accent);
+}
+
+.post-body :not(pre) > code {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--sunken);
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--ink);
+}
+
+.post-body pre {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--sunken);
+  padding: 1.1rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.post-table {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.post-body th,
+.post-body td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.post-body th {
+  background: var(--sunken);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.post-body tr:last-child td {
+  border-bottom: 0;
+}
+
+.post-body em {
+  color: var(--faint);
+}
+
+/* ---------------------------------------------------------------------------
    Motion
 --------------------------------------------------------------------------- */
 
@@ -306,22 +541,8 @@ body {
   }
 }
 
-/* Shifts the track by exactly one of its four copies. */
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-25%);
-  }
-}
-
 .animate-fade-up {
   animation: fade-up 0.75s var(--ease-out) both;
-}
-
-.animate-marquee {
-  animation: marquee 38s linear infinite;
 }
 
 .animate-pulse-ring {
@@ -386,16 +607,11 @@ html.js .reveal[data-visible="true"] {
     scroll-behavior: auto;
   }
 
-  /* Only this needs naming — the universal rule below cannot restore opacity. */
-  .reveal {
+  /* Only this needs naming — the universal rule below cannot restore opacity.
+     Matches the html.js selector that hides it, or that one would win. */
+  html.js .reveal {
     opacity: 1;
     transform: none;
-  }
-
-  /* The universal rule would run this to completion instead, parking the track
-     a quarter of the way along. Stop it where it starts. */
-  .animate-marquee {
-    animation: none !important;
   }
 
   *,

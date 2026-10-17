@@ -15,7 +15,7 @@ function resolveSiteUrl() {
   const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
   if (vercel) return `https://${vercel}`;
 
-  return "http://localhost:3000";
+  return "http://localhost:3003";
 }
 
 export const siteUrl = resolveSiteUrl();

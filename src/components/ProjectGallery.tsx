@@ -17,24 +17,41 @@ import {
   Play,
 } from "@/components/Icons";
 
+/** Stack tags shown on a card before the rest collapse into "+N". */
+const CARD_TAGS = 4;
+
 /**
- * Screenshot tile. The demo video previews on hover; the details slide up over
- * it. Touch screens have no hover, so they show the details below it instead.
+ * Project card: the screenshot on top (or beside the text, for the featured
+ * card on wide screens) and the details always visible below it. The demo video
+ * previews on hover.
  *
- * It stays a real link to the case study, so crawlers, no-JS visitors and
- * cmd/ctrl-clicks still reach the page — only a plain click opens the lightbox.
+ * The screenshot opens the lightbox for a quick look; the title and footer go to
+ * the case study. Every one is a real link, so crawlers, no-JS visitors and
+ * cmd/ctrl-clicks still reach the page — only a plain click on the screenshot
+ * opens the lightbox.
  */
 function Tile({
   project,
   sizes,
+  eager,
+  featured,
   onOpen,
 }: {
   project: Project;
   sizes: string;
+  eager: boolean;
+  /** Spans the full row, with the screenshot beside the text on wide screens. */
+  featured: boolean;
   onOpen: () => void;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const caseStudy = `/projects/${project.slug}`;
+  const tags = project.stack.slice(0, featured ? CARD_TAGS + 2 : CARD_TAGS);
+  const hiddenTags = project.stack.length - tags.length;
+  const external = project.liveUrl
+    ? { href: project.liveUrl, label: project.demo ? "Live demo" : "Visit site" }
+    : project.repos?.[0] && { href: project.repos[0].href, label: "View code" };
 
   function preview(on: boolean) {
     const video = videoRef.current;
@@ -50,22 +67,35 @@ function Tile({
   }
 
   return (
-    <Link
-      href={`/projects/${project.slug}`}
-      aria-haspopup="dialog"
-      onClick={(event) => {
-        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-        event.preventDefault();
-        onOpen();
-      }}
+    <article
       onMouseEnter={() => preview(true)}
       onMouseLeave={() => preview(false)}
-      onFocus={() => preview(true)}
-      onBlur={() => preview(false)}
-      className="group relative block rounded-xl transition-shadow duration-500 hover:shadow-float"
+      className={`panel flex h-full flex-col overflow-hidden transition-[transform,border-color,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:border-line-strong hover:shadow-float ${
+        featured ? "lg:flex-row" : ""
+      }`}
     >
-      <div className="relative">
-        <ProjectCover project={project} className="aspect-video" sizes={sizes} />
+      <Link
+        href={caseStudy}
+        aria-haspopup="dialog"
+        aria-label={`Quick look at ${project.title}`}
+        onClick={(event) => {
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          onOpen();
+        }}
+        onFocus={() => preview(true)}
+        onBlur={() => preview(false)}
+        className={`group relative block shrink-0 overflow-hidden border-b border-line ${
+          featured ? "lg:w-[58%] lg:border-r lg:border-b-0" : ""
+        }`}
+      >
+        <ProjectCover
+          project={project}
+          framed={false}
+          sizes={sizes}
+          eager={eager}
+          className={featured ? "aspect-video lg:aspect-auto lg:h-full lg:min-h-[24rem]" : "aspect-video"}
+        />
 
         {project.video && (
           <video
@@ -78,52 +108,111 @@ function Tile({
             aria-hidden="true"
             tabIndex={-1}
             onPlaying={() => setPlaying(true)}
-            className={`absolute inset-0 h-full w-full rounded-xl object-cover transition-opacity duration-500 ${
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
               playing ? "opacity-100" : "opacity-0"
             }`}
           />
         )}
 
         {project.video && (
-          <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full border border-line bg-paper/85 px-2.5 py-1 font-mono text-[0.625rem] tracking-widest text-ink uppercase backdrop-blur">
+          <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-line bg-paper/85 px-2.5 py-1 font-mono text-xs tracking-widest text-ink uppercase backdrop-blur">
             <Play className="h-2.5 w-2.5 fill-current" />
             Demo
           </span>
         )}
 
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-xl bg-linear-to-t from-paper via-paper/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 pointer-coarse:hidden"
-        />
-      </div>
+        <span className="absolute right-4 bottom-4 inline-flex items-center gap-1.5 rounded-full bg-ink px-3.5 py-1.5 text-xs font-medium text-paper opacity-0 shadow-soft transition-all duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 pointer-coarse:hidden">
+          Quick look
+          <ArrowUpRight className="h-3 w-3" />
+        </span>
+      </Link>
 
-      {/* Over the media on hover; below it on touch, where it is always shown. */}
-      <span className="absolute inset-x-0 bottom-0 flex translate-y-3 flex-col p-5 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:p-6 pointer-coarse:static pointer-coarse:translate-y-0 pointer-coarse:px-1 pointer-coarse:pt-4 pointer-coarse:pb-0 pointer-coarse:opacity-100">
-        <span className="font-mono text-[0.625rem] tracking-[0.22em] text-accent uppercase">
-          {project.year}
-        </span>
-        <span className="mt-1 font-display text-2xl tracking-tight text-ink">
-          {project.title}
-        </span>
-        <span className="mt-1 line-clamp-2 text-sm leading-6 text-muted">
+      <div className={`flex flex-1 flex-col p-6 sm:p-7 ${featured ? "lg:justify-center lg:p-10" : ""}`}>
+        <p className="flex items-center gap-3 font-mono text-xs tracking-[0.12em] text-faint uppercase">
+          <span className="text-accent">{project.year}</span>
+          {project.liveUrl && (
+            <span className="inline-flex items-center gap-1.5">
+              <span className="eyebrow-dot" aria-hidden="true" />
+              Live
+            </span>
+          )}
+        </p>
+
+        <h3
+          className={`mt-3 font-display tracking-tight text-ink ${
+            featured ? "text-3xl sm:text-4xl" : "text-3xl"
+          }`}
+        >
+          <Link href={caseStudy} className="transition-colors hover:text-accent">
+            {project.title}
+          </Link>
+        </h3>
+
+        <p
+          className={`mt-3 text-muted ${
+            featured ? "text-base leading-7" : "line-clamp-3 text-sm leading-6"
+          }`}
+        >
           {project.summary}
-        </span>
-      </span>
-    </Link>
+        </p>
+
+        <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Tools used">
+          {tags.map((tech) => (
+            <li key={tech} className="tag">
+              {tech}
+            </li>
+          ))}
+          {hiddenTags > 0 && (
+            <li className="tag" aria-label={`and ${hiddenTags} more`}>
+              +{hiddenTags}
+            </li>
+          )}
+        </ul>
+
+        <div className="mt-auto pt-6">
+          <div className="flex items-center justify-between gap-4 border-t border-line pt-5 text-sm">
+            <Link href={caseStudy} className="group inline-flex items-center gap-2 font-medium text-ink">
+              Case study
+              <ArrowRight className="icon-nudge h-4 w-4 text-accent" />
+            </Link>
+            {external && (
+              <a
+                href={external.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 text-muted transition-colors hover:text-ink"
+              >
+                {external.label}
+                <ArrowUpRight className="icon-nudge-diagonal h-3.5 w-3.5" />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
   );
 }
 
-/** Grid of project tiles that open into a full-screen lightbox. */
-export default function ProjectGallery({ projects }: { projects: Project[] }) {
+/**
+ * Grid of project tiles that open into a full-screen lightbox. Pass `eager` when
+ * the grid starts above the fold, so its first row is not lazy-loaded.
+ */
+export default function ProjectGallery({
+  projects,
+  eager = false,
+}: {
+  projects: Project[];
+  eager?: boolean;
+}) {
   const [active, setActive] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const project = active === null ? undefined : projects[active];
   const count = projects.length;
-  // A lone project gets one wide tile instead of a third of an empty row.
-  const lone = count === 1;
-  const tileSizes = lone
-    ? "(min-width: 768px) 48rem, 100vw"
-    : "(min-width: 1024px) 24rem, (min-width: 640px) 45vw, 100vw";
+  // With an odd count the first project takes a full row, so the two-column
+  // grid below it always fills evenly instead of leaving a lone card.
+  const featureFirst = count % 2 === 1;
+  const tileSizes = "(min-width: 1152px) 36rem, (min-width: 640px) 50vw, 100vw";
+  const featuredSizes = "(min-width: 1152px) 42rem, 100vw";
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -144,16 +233,27 @@ export default function ProjectGallery({ projects }: { projects: Project[] }) {
 
   return (
     <>
-      <ul
-        className={`grid gap-6 md:gap-8 ${
-          lone ? "max-w-3xl" : "sm:grid-cols-2 lg:grid-cols-3"
-        }`}
-      >
-        {projects.map((item, index) => (
-          <Reveal as="li" key={item.slug} delay={index * 80}>
-            <Tile project={item} sizes={tileSizes} onOpen={() => setActive(index)} />
-          </Reveal>
-        ))}
+      <ul className="grid gap-6 sm:grid-cols-2 md:gap-8">
+        {projects.map((item, index) => {
+          const featured = featureFirst && index === 0;
+          return (
+            <Reveal
+              as="li"
+              key={item.slug}
+              delay={index * 80}
+              className={featured ? "sm:col-span-2" : ""}
+            >
+              <Tile
+                project={item}
+                sizes={featured ? featuredSizes : tileSizes}
+                featured={featured}
+                // Whatever fills the first row, featured or not.
+                eager={eager && index < (featureFirst ? 1 : 2)}
+                onOpen={() => setActive(index)}
+              />
+            </Reveal>
+          );
+        })}
       </ul>
 
       <dialog

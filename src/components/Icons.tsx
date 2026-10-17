@@ -57,13 +57,6 @@ export const LinkedIn = (props: IconProps) => (
   </Icon>
 );
 
-/** Unused for now — rewire it in lib/site.ts if you add an X/Twitter profile. */
-export const Twitter = (props: IconProps) => (
-  <Icon {...props}>
-    <path d="M3 3h4.5l5 6.8L18.2 3H21l-7.1 8.3L21.4 21H17l-5.3-7.2L5.4 21H3l7.6-8.9L3 3Z" />
-  </Icon>
-);
-
 export const WhatsApp = (props: IconProps) => (
   <Icon {...props}>
     <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.4-.6L3 21l1.7-5.1A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z" />
@@ -99,13 +92,6 @@ export const Close = (props: IconProps) => (
   </Icon>
 );
 
-export const User = (props: IconProps) => (
-  <Icon {...props}>
-    <circle cx="12" cy="8" r="4" />
-    <path d="M4 20c0-3.9 3.6-7 8-7s8 3.1 8 7" />
-  </Icon>
-);
-
 export const ChatBubble = (props: IconProps) => (
   <Icon {...props}>
     <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.4-.6L3 21l1.7-5.1A8.4 8.4 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z" />
@@ -121,6 +107,20 @@ export const Download = (props: IconProps) => (
 export const Send = (props: IconProps) => (
   <Icon {...props}>
     <path d="M4.5 12h15M13 5.5l6.5 6.5-6.5 6.5" />
+  </Icon>
+);
+
+export const Search = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="11" cy="11" r="6.5" />
+    <path d="m20 20-4.2-4.2" />
+  </Icon>
+);
+
+export const FileText = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" />
+    <path d="M14 3v5h5M9 13h6M9 17h4" />
   </Icon>
 );
 

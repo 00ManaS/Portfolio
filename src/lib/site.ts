@@ -16,13 +16,19 @@ export const siteConfig = {
    * empty the download buttons stay hidden rather than linking to a 404.
    */
   resume: "",
+  /**
+   * Drop a portrait at public/avatar.jpg and set this to "/avatar.jpg". While
+   * it is empty the hero shows the current project instead of a blank frame.
+   */
+  avatar: "",
   social: {
     github: "https://github.com/00ManaS",
-    // TODO: replace with your real profile — this one is still a dead link.
-    linkedin: "https://linkedin.com/in/your-username",
+    // TODO: add your profile URL. Left empty, LinkedIn stays off the site
+    // rather than linking to a page that doesn't exist.
+    linkedin: "",
     whatsapp: "https://wa.me/9779861468034",
   },
-  // TODO: replace with your real toolkit — used by the homepage marquee and
+  // TODO: replace with your real toolkit — used by the homepage toolkit strip and
   // the stack list on the About page.
   stack: [
     "TypeScript",
@@ -47,12 +53,19 @@ const [firstName, handle] = siteConfig.wordmark.split(".");
 /** The wordmark split, derived once instead of at each render site. */
 export const brand = { firstName, handle };
 
+const [givenName, ...surnames] = siteConfig.name.split(" ");
+
+/** The real name split for two-tone headings: first word, then the rest. */
+export const nameParts = { first: givenName, last: surnames.join(" ") };
+
 /**
- * Social profiles in display order. `key` selects the icon (see socialIcon in
- * components/Icons) so the list itself stays free of JSX.
+ * Social profiles in display order, minus any left blank. `key` selects the
+ * icon (see socialIcon in components/Icons) so the list itself stays free of JSX.
  */
-export const socialLinks = [
-  { key: "github", label: "GitHub", href: siteConfig.social.github },
-  { key: "linkedin", label: "LinkedIn", href: siteConfig.social.linkedin },
-  { key: "whatsapp", label: "WhatsApp", href: siteConfig.social.whatsapp },
-] as const;
+export const socialLinks = (
+  [
+    { key: "github", label: "GitHub", href: siteConfig.social.github },
+    { key: "linkedin", label: "LinkedIn", href: siteConfig.social.linkedin },
+    { key: "whatsapp", label: "WhatsApp", href: siteConfig.social.whatsapp },
+  ] as const
+).filter((link) => link.href);

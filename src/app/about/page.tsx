@@ -8,6 +8,7 @@ import { ArrowRight, Download } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "About",
+  alternates: { canonical: "/about" },
 };
 
 /** At-a-glance details beside the bio, for readers who skim. */
@@ -62,6 +63,15 @@ const experience = [
   },
 ];
 
+/**
+ * Words from people you've worked with. The section stays off the page until
+ * there's at least one — ask a supervisor or teammate for a line or two, and
+ * only quote what they actually said.
+ *
+ * e.g. { quote: "…", name: "Full Name", role: "Lead Developer, Brand Builder" }
+ */
+const testimonials: { quote: string; name: string; role: string }[] = [];
+
 export default function AboutPage() {
   return (
     <div className="wrap flex-1">
@@ -81,21 +91,19 @@ export default function AboutPage() {
       <section id="background" className="scroll-mt-24 border-b border-line py-16">
         <div className="grid gap-8 lg:grid-cols-[14rem_1fr] lg:gap-16">
           <Reveal>
-            <Eyebrow>Background</Eyebrow>
-            <dl className="mt-6 flex flex-col gap-4 text-sm">
+            <h2>
+              <Eyebrow>Background</Eyebrow>
+            </h2>
+            <dl className="panel mt-6 divide-y divide-line text-sm">
               {facts.map((fact) => (
-                <div key={fact.label} className="flex flex-col gap-1">
-                  <dt className="font-mono text-[0.6875rem] tracking-widest text-faint uppercase">
-                    {fact.label}
-                  </dt>
-                  <dd className="leading-6 text-ink">{fact.value}</dd>
+                <div key={fact.label} className="px-5 py-3.5">
+                  <dt className="eyebrow">{fact.label}</dt>
+                  <dd className="mt-1.5 leading-6 font-medium text-ink">{fact.value}</dd>
                 </div>
               ))}
-              <div className="flex flex-col gap-1">
-                <dt className="font-mono text-[0.6875rem] tracking-widest text-faint uppercase">
-                  Email
-                </dt>
-                <dd>
+              <div className="px-5 py-3.5">
+                <dt className="eyebrow">Email</dt>
+                <dd className="mt-1.5">
                   <a
                     href={`mailto:${siteConfig.email}`}
                     className="link-underline break-all text-accent"
@@ -107,7 +115,7 @@ export default function AboutPage() {
             </dl>
           </Reveal>
 
-          <Reveal delay={80} className="flex max-w-2xl flex-col gap-5 leading-7 text-muted">
+          <Reveal delay={80} className="flex max-w-2xl flex-col gap-5 text-base leading-8 text-muted">
             <p>
               Right now I&apos;m working on Inventory Manager, a platform pharmacies,
               groceries and retail shops use to run stock, sales and purchases. I
@@ -129,7 +137,9 @@ export default function AboutPage() {
       <section id="stack" className="scroll-mt-24 border-b border-line py-16">
         <div className="grid gap-8 lg:grid-cols-[14rem_1fr] lg:gap-16">
           <Reveal>
-            <Eyebrow>Stack</Eyebrow>
+            <h2>
+              <Eyebrow>Stack</Eyebrow>
+            </h2>
             <p className="mt-4 text-sm leading-6 text-muted">
               The tools I reach for most often, by where they sit.
             </p>
@@ -157,7 +167,9 @@ export default function AboutPage() {
       <section id="experience" className="scroll-mt-24 border-b border-line py-16">
         <div className="grid gap-8 lg:grid-cols-[14rem_1fr] lg:gap-16">
           <Reveal>
-            <Eyebrow>Experience</Eyebrow>
+            <h2>
+              <Eyebrow>Experience</Eyebrow>
+            </h2>
             <p className="mt-4 text-sm leading-6 text-muted">
               Where I&apos;ve worked and what I built there.
             </p>
@@ -175,49 +187,86 @@ export default function AboutPage() {
                 as="li"
                 key={`${job.company}-${job.period}`}
                 delay={index * 90}
-                className="relative pb-12 pl-8 last:pb-0"
+                className="relative pb-6 pl-8 last:pb-0"
               >
                 <span
                   aria-hidden="true"
-                  className="absolute top-1.5 left-0 h-2.5 w-2.5 rounded-full border-2 border-paper bg-accent ring-1 ring-line"
+                  className="absolute top-7 left-0 h-2.5 w-2.5 rounded-full border-2 border-paper bg-accent ring-1 ring-line"
                 />
-                <p className="font-mono text-[0.6875rem] tracking-widest text-faint uppercase">
-                  {job.period}
-                </p>
-                <h3 className="mt-2 font-display text-2xl tracking-tight">{job.role}</h3>
-                <p className="mt-0.5 text-sm text-accent">{job.company}</p>
-                <ul className="mt-4 flex max-w-2xl flex-col gap-2.5 text-sm leading-6 text-muted">
-                  {job.highlights.map((point) => (
-                    <li key={point} className="flex gap-3">
-                      <span
-                        aria-hidden="true"
-                        className="mt-2.5 h-px w-3 shrink-0 bg-line-strong"
-                      />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-                <ul className="mt-5 flex flex-wrap gap-2" aria-label="Tools used">
-                  {job.stack.map((tool) => (
-                    <li key={tool} className="tag">
-                      {tool}
-                    </li>
-                  ))}
-                </ul>
-                {job.link && (
-                  <Link
-                    href={job.link.href}
-                    className="group mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-ink"
-                  >
-                    {job.link.label}
-                    <ArrowRight className="icon-nudge h-3.5 w-3.5" />
-                  </Link>
-                )}
+                {/* Each role is its own card, so neighbouring jobs never run together. */}
+                <div className="panel p-6 sm:p-7">
+                  <p className="font-mono text-xs tracking-widest text-faint uppercase">
+                    {job.period}
+                  </p>
+                  <h3 className="mt-2 font-display text-2xl tracking-tight">{job.role}</h3>
+                  <p className="mt-0.5 text-sm text-accent">{job.company}</p>
+                  <ul className="mt-4 flex max-w-2xl flex-col gap-2.5 text-[0.9375rem] leading-7 text-muted">
+                    {job.highlights.map((point) => (
+                      <li key={point} className="flex gap-3">
+                        <span
+                          aria-hidden="true"
+                          className="mt-3.5 h-px w-3 shrink-0 bg-line-strong"
+                        />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul className="mt-5 flex flex-wrap gap-2" aria-label="Tools used">
+                    {job.stack.map((tool) => (
+                      <li key={tool} className="tag">
+                        {tool}
+                      </li>
+                    ))}
+                  </ul>
+                  {job.link && (
+                    <Link
+                      href={job.link.href}
+                      className="group mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-ink"
+                    >
+                      {job.link.label}
+                      <ArrowRight className="icon-nudge h-3.5 w-3.5" />
+                    </Link>
+                  )}
+                </div>
               </Reveal>
             ))}
           </ol>
         </div>
       </section>
+
+      {/* ------------------------------------------------------- testimonials */}
+      {testimonials.length > 0 && (
+        <section id="testimonials" className="scroll-mt-24 border-b border-line py-16">
+          <div className="grid gap-8 lg:grid-cols-[14rem_1fr] lg:gap-16">
+            <Reveal>
+              <h2>
+                <Eyebrow>Kind words</Eyebrow>
+              </h2>
+              <p className="mt-4 text-sm leading-6 text-muted">
+                From people I&apos;ve built things with.
+              </p>
+            </Reveal>
+
+            <ul className="grid gap-4 md:grid-cols-2">
+              {testimonials.map((item, index) => (
+                <Reveal as="li" key={item.name} delay={index * 80} className="panel flex flex-col p-6 sm:p-7">
+                  <blockquote className="flex-1 font-display text-2xl leading-snug tracking-tight text-ink">
+                    <span aria-hidden="true" className="text-accent">
+                      &ldquo;
+                    </span>
+                    {item.quote}
+                    <span aria-hidden="true" className="text-accent">
+                      &rdquo;
+                    </span>
+                  </blockquote>
+                  <p className="mt-6 text-sm font-medium text-ink">{item.name}</p>
+                  <p className="text-sm text-muted">{item.role}</p>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* --------------------------------------------------------------- cta */}
       <Reveal className="flex flex-wrap items-center justify-between gap-6 py-16">
