@@ -4,10 +4,10 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { siteConfig, socialLinks } from "@/lib/site";
 import { toggleTheme } from "@/lib/theme";
-import { ArrowRight, ArrowUpRight, Copy, FileText, Moon, Search, socialIcon } from "@/components/Icons";
+import { ArrowRight, ArrowUpRight, Copy, Moon, Search, socialIcon } from "@/components/Icons";
 
 /** A destination on the site, passed down from the root layout. */
-export type CommandLink = { group: "Pages" | "Projects" | "Writing"; label: string; href: string; hint?: string };
+export type CommandLink = { group: "Pages" | "Projects"; label: string; href: string; hint?: string };
 
 type Command = {
   id: string;
@@ -38,7 +38,7 @@ export default function CommandMenu({ links }: { links: CommandLink[] }) {
         group: link.group,
         label: link.label,
         hint: link.hint,
-        icon: link.group === "Writing" ? <FileText className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />,
+        icon: <ArrowRight className="h-4 w-4" />,
         run: go(link.href),
       })),
       {

@@ -9,13 +9,11 @@ test.describe("metadata routes", () => {
     expect(body).toMatch(/Sitemap: .*\/sitemap\.xml/);
   });
 
-  test("sitemap lists every page and no drafts", async ({ request }) => {
+  test("sitemap lists every page", async ({ request }) => {
     const body = await (await request.get("/sitemap.xml")).text();
     for (const path of ["/about", "/projects", "/contact", "/projects/inventory-manager"]) {
       expect(body).toContain(`${path}</loc>`);
     }
-    // The only post is a draft, so the blog stays out of the sitemap for now.
-    expect(body).not.toContain("/blog/stock-check-that-still-oversold");
   });
 
   test("social image and favicon render as PNGs", async ({ request }) => {
@@ -33,10 +31,5 @@ test.describe("metadata routes", () => {
     expect(data["@type"]).toBe("Person");
     expect(data.name).toBe("Sanam Thapa");
     expect(data.sameAs).toContain("https://github.com/00ManaS");
-  });
-
-  test("drafts stay off the live site", async ({ request }) => {
-    expect((await request.get("/blog")).status()).toBe(404);
-    expect((await request.get("/blog/stock-check-that-still-oversold")).status()).toBe(404);
   });
 });

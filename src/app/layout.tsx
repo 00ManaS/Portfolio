@@ -11,7 +11,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteConfig } from "@/lib/site";
 import { projects } from "@/lib/projects";
-import { getPosts } from "@/lib/posts";
 import { siteUrl } from "@/lib/url";
 
 const geistSans = Geist({
@@ -69,10 +68,8 @@ export const viewport: Viewport = {
 /** Set by Vercel during its builds; absent locally and on other hosts. */
 const onVercel = Boolean(process.env.VERCEL);
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const posts = await getPosts();
-  // "Writing" only joins the nav once there's something published to read.
-  const nav = posts.length ? [...siteConfig.nav, { label: "Writing", href: "/blog" }] : siteConfig.nav;
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  const nav = siteConfig.nav;
   const commandLinks: CommandLink[] = [
     ...[...nav, { label: "Contact", href: "/contact" }].map((item) => ({ group: "Pages" as const, ...item })),
     ...projects.map((project) => ({
@@ -81,7 +78,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       href: `/projects/${project.slug}`,
       hint: project.year,
     })),
-    ...posts.map((post) => ({ group: "Writing" as const, label: post.title, href: `/blog/${post.slug}` })),
   ];
 
   return (

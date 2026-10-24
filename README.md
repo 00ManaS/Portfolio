@@ -9,11 +9,8 @@ Built with Next.js, TypeScript and Tailwind CSS.
 - **Project case studies** — each project gets its own page with an overview,
   what it covers (or my part, for team projects), key technical decisions, role,
   stack, live and code links, and an optional demo login or walkthrough video.
-- **Writing** — MDX blog posts with syntax-highlighted code. Posts marked
-  `draft: true` show in `npm run dev` but stay off the live site, and the
-  Writing link only appears once something is published.
-- **Command menu** — press ⌘K (Ctrl K on Windows/Linux) to jump to any page,
-  project or post, copy my email or switch theme.
+- **Command menu** — press ⌘K (Ctrl K on Windows/Linux) to jump to any page
+  or project, copy my email or switch theme.
 - **Contact form** — a server action that emails messages through
   [Resend](https://resend.com), with a honeypot against spam bots. It works
   without JavaScript and stays hidden until an API key is set.
@@ -68,7 +65,6 @@ Almost everything shown on the site lives in a few plain data files:
 | `src/lib/projects.ts`     | Projects and their case study sections; set `hidden: true` to keep one off the site |
 | `src/app/about/page.tsx`  | Work experience                                       |
 | `src/lib/faq.ts`          | Questions and answers for the chat assistant          |
-| `src/content/posts/*.mdx` | Blog posts; each starts with `export const metadata = { title, summary, date, draft }` |
 | `src/app/globals.css`     | Colour tokens and the type scale                      |
 
 Project screenshots and videos go in `public/projects/`.
