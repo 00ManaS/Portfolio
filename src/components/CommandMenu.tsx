@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { siteConfig, socialLinks } from "@/lib/site";
 import { toggleTheme } from "@/lib/theme";
@@ -17,17 +17,6 @@ type Command = {
   icon: React.ReactNode;
   run: () => void;
 };
-
-/** Fired by the nav button; the menu itself owns the ⌘K shortcut. */
-export const OPEN_COMMAND_MENU = "command-menu:open";
-
-const isMac = () => /mac|iphone|ipad/i.test(navigator.userAgent);
-const noop = () => () => {};
-
-/** "⌘K" on Apple devices, "Ctrl K" elsewhere — "⌘" during SSR and hydration. */
-export function useShortcutLabel() {
-  return useSyncExternalStore(noop, () => (isMac() ? "⌘K" : "Ctrl K"), () => "⌘K");
-}
 
 export default function CommandMenu({ links }: { links: CommandLink[] }) {
   const router = useRouter();
@@ -96,7 +85,7 @@ export default function CommandMenu({ links }: { links: CommandLink[] }) {
     });
   }, [commands, query]);
 
-  // ⌘K / Ctrl+K anywhere, plus the nav button's event.
+  // ⌘K / Ctrl+K anywhere.
   useEffect(() => {
     const show = () => {
       setQuery("");
@@ -112,10 +101,8 @@ export default function CommandMenu({ links }: { links: CommandLink[] }) {
       }
     };
     window.addEventListener("keydown", onKeyDown);
-    window.addEventListener(OPEN_COMMAND_MENU, show);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener(OPEN_COMMAND_MENU, show);
     };
   }, []);
 

@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site";
 import ThemeToggle from "@/components/ThemeToggle";
 import Wordmark from "@/components/Wordmark";
-import { OPEN_COMMAND_MENU, useShortcutLabel } from "@/components/CommandMenu";
-import { ArrowRight, Close, Menu, Search } from "@/components/Icons";
+import { ArrowRight, Close, Menu } from "@/components/Icons";
 
 function isNavItemActive(href: string, pathname: string) {
   if (href.includes("#")) return false;
@@ -22,7 +21,6 @@ export default function Nav({ items }: { items: NavItem[] }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const contactActive = isNavItemActive("/contact", pathname);
-  const shortcut = useShortcutLabel();
 
   // A route change from anywhere other than a menu link (browser back, the
   // wordmark) would otherwise leave the sheet open over the new page. Adjusted
@@ -75,17 +73,6 @@ export default function Nav({ items }: { items: NavItem[] }) {
         </ul>
 
         <div className="flex items-center gap-2">
-          {/* Shows the shortcut so keyboard users learn it exists. */}
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_MENU))}
-            aria-label="Search the site"
-            aria-keyshortcuts="Meta+K Control+K"
-            className="btn-icon hidden h-10 gap-2 px-3 lg:inline-flex"
-          >
-            <Search className="h-4 w-4" />
-            <kbd className="font-mono text-[0.6875rem] tracking-wide">{shortcut}</kbd>
-          </button>
           {/* Contact sits outside the pill, so it carries its own active state. */}
           <Link
             href="/contact"

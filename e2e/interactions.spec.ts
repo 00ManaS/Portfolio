@@ -141,9 +141,9 @@ test.describe("command menu", () => {
     await expect(menu).toBeHidden();
   });
 
-  test("opens from the nav button and shows a no-results state", async ({ page }) => {
+  test("shows a no-results state", async ({ page }) => {
     await page.goto("/about");
-    await page.getByRole("button", { name: "Search the site" }).click();
+    await page.keyboard.press("ControlOrMeta+k");
     const menu = page.getByRole("dialog", { name: "Command menu" });
     await menu.getByRole("combobox").fill("zzzz");
     await expect(menu).toContainText("Nothing matches");
