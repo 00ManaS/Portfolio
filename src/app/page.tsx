@@ -6,7 +6,7 @@ import { siteUrl } from "@/lib/url";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import ProjectGallery from "@/components/ProjectGallery";
-import ProjectCover from "@/components/ProjectCover";
+
 import { ArrowRight, Download } from "@/components/Icons";
 
 /**
@@ -173,8 +173,7 @@ export default function Home() {
 
 /**
  * The right-hand side of the hero: a portrait once siteConfig.avatar is set,
- * otherwise a window onto the project being built right now — a blank frame
- * would be the largest thing on the page and say nothing.
+ * otherwise a stylish profile icon silhouette with a glowing accent backdrop.
  */
 function HeroVisual() {
   if (siteConfig.avatar) {
@@ -195,45 +194,54 @@ function HeroVisual() {
     );
   }
 
-  const current = getFeaturedProjects().find((project) => project.cover);
-  if (!current) return null;
-
-  // Desktop only: on a phone the same project is the first card a scroll
-  // below, so showing it here too would only push the work further down.
   return (
-    <div className="animate-fade-up relative hidden lg:block [animation-delay:160ms]">
+    <div className="animate-fade-up relative mx-auto w-full max-w-xs lg:max-w-sm [animation-delay:160ms]">
+      {/* Radial glow behind the icon */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -inset-10 -z-10"
-        style={{ background: "radial-gradient(55% 50% at 50% 50%, var(--glow-a), transparent 72%)" }}
+        style={{
+          background:
+            "radial-gradient(55% 50% at 50% 50%, var(--glow-a), transparent 72%)",
+        }}
       />
-      <Link
-        href={`/projects/${current.slug}`}
-        className="group block overflow-hidden rounded-2xl border border-line bg-raised shadow-float transition-[transform,border-color] duration-500 ease-out hover:-translate-y-1 hover:border-line-strong"
-      >
-        {/* Browser chrome, so the screenshot reads as a running app. */}
-        <div aria-hidden="true" className="flex items-center gap-1.5 border-b border-line px-4 py-3">
-          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
-          <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
+      <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-line-strong bg-raised shadow-float">
+        {/* Subtle inner gradient for depth */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-0"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 35%, var(--accent-wash), transparent 70%)",
+          }}
+        />
+        {/* Profile icon silhouette */}
+        <div className="flex h-full w-full items-center justify-center">
+          <svg
+            viewBox="0 0 120 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-3/5 w-3/5 drop-shadow-lg"
+            aria-hidden="true"
+          >
+            {/* Head */}
+            <circle
+              cx="60"
+              cy="40"
+              r="20"
+              className="fill-ink/10 stroke-ink/40"
+              strokeWidth="2"
+            />
+            {/* Shoulders / body arc */}
+            <path
+              d="M20 105c0-22.091 17.909-40 40-40s40 17.909 40 40"
+              className="fill-ink/[0.07] stroke-ink/40"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
         </div>
-        <ProjectCover project={current} framed={false} eager sizes="32rem" />
-        <div className="flex items-center justify-between gap-4 border-t border-line px-5 py-4">
-          <div className="min-w-0">
-            <p className="eyebrow">
-              <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="animate-pulse-ring absolute inset-0 rounded-full bg-accent" />
-                <span className="relative h-1.5 w-1.5 rounded-full bg-accent" />
-              </span>
-              Currently building
-            </p>
-            <p className="mt-1.5 truncate font-display text-2xl tracking-tight">{current.title}</p>
-          </div>
-          <span className="btn-icon h-10 w-10 shrink-0 group-hover:border-line-strong group-hover:text-ink">
-            <ArrowRight className="icon-nudge h-4 w-4" />
-          </span>
-        </div>
-      </Link>
+      </div>
       <CornerTicks />
     </div>
   );
