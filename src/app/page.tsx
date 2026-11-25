@@ -10,12 +10,13 @@ import ProjectGallery from "@/components/ProjectGallery";
 import { ArrowRight, Download } from "@/components/Icons";
 
 /**
- * schema.org Person, so search engines can tie the name, role and profiles
- * together. Escaped "<" keeps a stray "</script>" in any value from ending the tag.
+ * schema.org WebSite and Person. WebSite tells search engines which name to
+ * show for the site; Person ties the name, role and profiles together.
+ * Escaped "<" keeps a stray "</script>" in any value from ending the tag.
  */
-const personJsonLd = JSON.stringify({
-  "@context": "https://schema.org",
+const person = {
   "@type": "Person",
+  "@id": `${siteUrl}/#person`,
   name: siteConfig.name,
   jobTitle: siteConfig.title,
   description: siteConfig.description,
@@ -26,6 +27,21 @@ const personJsonLd = JSON.stringify({
   knowsAbout: siteConfig.stack,
   // Profiles only; a chat link isn't an identity.
   sameAs: socialLinks.filter((link) => link.key !== "whatsapp").map((link) => link.href),
+};
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: siteConfig.name,
+      alternateName: siteConfig.wordmark,
+      url: `${siteUrl}/`,
+      publisher: { "@id": person["@id"] },
+    },
+    person,
+  ],
 }).replace(/</g, "\\u003c");
 
 export default function Home() {
@@ -33,7 +49,7 @@ export default function Home() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: personJsonLd }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       {/* ---------------------------------------------------------------- hero */}
       <section className="wrap relative flex items-center py-16 sm:py-24 lg:min-h-[calc(100svh-5.5rem)] lg:py-16">
         <div className="grid w-full items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">

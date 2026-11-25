@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { projects } from "@/lib/projects";
+import { siteConfig } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/PageHeader";
 import ProjectGallery from "@/components/ProjectGallery";
 import Reveal from "@/components/Reveal";
 import { ArrowRight } from "@/components/Icons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Projects",
-  alternates: { canonical: "/projects" },
-};
+  description: `Full-stack web applications built by ${siteConfig.name}, with live demos and case studies on the decisions behind them.`,
+  path: "/projects",
+});
 
 export default function ProjectsPage() {
   const stats = [

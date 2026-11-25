@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAdjacentProjects, getProject, projects } from "@/lib/projects";
+import { pageMetadata } from "@/lib/metadata";
 import DemoLogin from "@/components/DemoLogin";
 import PageHeader from "@/components/PageHeader";
 import ProjectCover from "@/components/ProjectCover";
@@ -21,12 +22,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  return {
+  return pageMetadata({
     title: project.title,
     description: project.summary,
-    // Without this each page inherits the root layout's canonical of "/".
-    alternates: { canonical: `/projects/${slug}` },
-  };
+    path: `/projects/${slug}`,
+  });
 }
 
 export default async function ProjectPage({ params }: PageProps<"/projects/[slug]">) {

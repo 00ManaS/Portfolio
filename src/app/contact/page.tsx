@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import ContactForm from "@/components/ContactForm";
 import CopyButton from "@/components/CopyButton";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import { ArrowUpRight, GitHub, LinkedIn, WhatsApp } from "@/components/Icons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact",
-  alternates: { canonical: "/contact" },
-};
+  description: `Get in touch with ${siteConfig.name}, a full-stack developer in ${siteConfig.location}, by email or WhatsApp — open to full-stack roles and new projects.`,
+  path: "/contact",
+});
 
 // Email isn't repeated here: it leads the page on the left, with a copy button.
 const links = [

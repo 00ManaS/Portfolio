@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import PageHeader from "@/components/PageHeader";
 import Eyebrow from "@/components/Eyebrow";
 import Reveal from "@/components/Reveal";
 import { ArrowRight, Download } from "@/components/Icons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
-  alternates: { canonical: "/about" },
-};
+  description: `About ${siteConfig.name}, a full-stack developer in ${siteConfig.location} — background, experience and the tools I build with, from React and Next.js to Node.js and PostgreSQL.`,
+  path: "/about",
+});
 
 /** At-a-glance details beside the bio, for readers who skim. */
 const facts = [

@@ -12,6 +12,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteConfig } from "@/lib/site";
 import { projects } from "@/lib/projects";
 import { siteUrl } from "@/lib/url";
+import { homeTitle, sharedOpenGraph } from "@/lib/metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,23 +37,21 @@ export const metadata: Metadata = {
   // generated OG image all resolve against this.
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteConfig.name} — ${siteConfig.title}`,
+    default: homeTitle,
     template: `%s — ${siteConfig.name}`,
   },
   description: siteConfig.description,
   alternates: { canonical: "/" },
   openGraph: {
-    title: `${siteConfig.name} — ${siteConfig.title}`,
+    ...sharedOpenGraph,
+    title: homeTitle,
     description: siteConfig.description,
     url: "/",
-    siteName: siteConfig.name,
-    locale: "en_US",
-    type: "website",
   },
   // Next picks up opengraph-image.tsx for both cards; this only sets the shape.
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.title}`,
+    title: homeTitle,
     description: siteConfig.description,
   },
 };
