@@ -72,9 +72,9 @@ Project screenshots and videos go in `public/projects/`.
 ## Deployment
 
 The site is ready to deploy on [Vercel](https://vercel.com): import this
-repository and keep the default settings. Once a custom domain is pointed at it,
-set `NEXT_PUBLIC_SITE_URL` (for example `https://example.com`) so the sitemap and
-social previews use that address.
+repository and keep the default settings. Vercel builds use the custom domain
+set in [`src/lib/url.ts`](src/lib/url.ts) for canonicals, the sitemap and social
+previews; set `NEXT_PUBLIC_SITE_URL` only to override it.
 
 ### Environment variables
 
