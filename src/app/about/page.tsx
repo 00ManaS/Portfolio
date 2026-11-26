@@ -82,7 +82,7 @@ export default function AboutPage() {
         title="Full-stack developer who ships real products"
         intro={
           <>
-            I&apos;m {siteConfig.name}, a full-stack developer based in{" "}
+            I&apos;m {siteConfig.fullName}, a full-stack developer based in{" "}
             {siteConfig.location}. I build web applications end to end — from the
             interface people click on to the APIs and databases behind it.
           </>

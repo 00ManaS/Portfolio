@@ -30,6 +30,7 @@ test.describe("metadata routes", () => {
     const graph: Record<string, unknown>[] = JSON.parse(json!)["@graph"];
     const person = graph.find((node) => node["@type"] === "Person")!;
     expect(person.name).toBe("Sanam Thapa");
+    expect(person.alternateName).toBe("Sanam Thapa Magar");
     expect(person.sameAs).toContain("https://github.com/00ManaS");
     const website = graph.find((node) => node["@type"] === "WebSite")!;
     expect(website.name).toBe("Sanam Thapa");

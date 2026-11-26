@@ -18,6 +18,7 @@ const person = {
   "@type": "Person",
   "@id": `${siteUrl}/#person`,
   name: siteConfig.name,
+  alternateName: siteConfig.fullName,
   jobTitle: siteConfig.title,
   description: siteConfig.description,
   url: siteUrl,

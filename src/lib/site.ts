@@ -2,6 +2,11 @@
 export const siteConfig = {
   /** Real name — used for metadata, the copyright line and alt text. */
   name: "Sanam Thapa",
+  /**
+   * Full name, as in the domain. Shown once on the About page and given to
+   * search engines as an alternate name, so searches for it find the site.
+   */
+  fullName: "Sanam Thapa Magar",
   /** Brand mark shown in the nav and hero. Split on "." to colour the suffix. */
   wordmark: "Sanam.code",
   title: "Full-Stack Developer",
